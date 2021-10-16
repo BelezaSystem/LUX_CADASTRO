@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'luxcadastro', # no pythonanywhere é o nome do usuário + $ + nome do banco
         'USER': 'root',
-        'PASSWORD': '',# colocar sua senha aqui.
+        'PASSWORD': '11092010',# colocar sua senha aqui.
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
