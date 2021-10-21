@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Bombeiro</title>
+    </head>
+    <body>
+        <div>
+            {% for b in bombeiro %}
+            <div>
+                <p>Pasta: {{ b.fk_cliente.pasta }}</p>
+                <p>Razão Social: {{ b.fk_cliente.cliente }}</p>
+                <p>CNPJ: {{ b.fk_cliente.cnpj_cpf }}</p>
+                <p>Vencimento: {{ b.vencimento }}</p>
+                <p>Status: {{ b.dias }}</p>
+                <p>Extintores: {{ b.tp_extintores }}</p>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+    </body>
+</html>
