@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 # Create your models here.
@@ -7,7 +8,7 @@ class Clientes(models.Model):
     cliente = models.CharField('Cliente', max_length=100)
     fantasia = models.CharField('Nome Fantasia', max_length=100, blank=True)
     cnpj_cpf = models.CharField('CNPJ/CPF', max_length=20)
-    Fk_Escrituraria = models.ForeignKey('Escrituraria', on_delete=models.CASCADE)
+
 
     class Meta:
         verbose_name = 'Cliente'
@@ -43,6 +44,7 @@ class DadosCadastrais(models.Model):
     cep = models.CharField('CEP', max_length=10, blank=True)
     cidade = models.CharField('Cidade', max_length=20, blank=True)
     estado = models.CharField('Estado', max_length=10, blank=True)
+    Fk_Escrituraria = models.ForeignKey('Escrituraria', on_delete=models.CASCADE)
     regime = models.CharField('Regime', max_length=20, blank=True)
     enquadramento = models.CharField('Enquadramento', max_length=10, blank=True)
     data_abertura = models.CharField('Data de Abertura', max_length=10, blank=True)
@@ -75,26 +77,13 @@ class Socios(models.Model):
         return self.nome
 
 
-class TipoExtintor(models.Model):
-    tipo_extintor = models.CharField('Tipo Extintor', max_length=200)
-
-    class Meta:
-        verbose_name = 'Extintor'
-        verbose_name_plural = 'Extintores'
-
-    def __str__(self):
-        return self.tipo_extintor
-
-
 class Bombeiro(models.Model):
     fk_cliente = models.ForeignKey('Clientes', on_delete=models.CASCADE)
     cod = models.IntegerField('Codigo Bombeiro')
     vencimento = models.DateField('Vencimento')
     ano = models.CharField('Ano', max_length=4, blank=True)
-    status = models.CharField('Status', max_length=100, blank=True)
     andamento = models.CharField('Andamento', max_length=100, blank=True)
     area = models.FloatField('Area', default=0)
-    fk_extintor = models.ForeignKey('TipoExtintor', on_delete=models.CASCADE)
     anotacoes = models.CharField('Anotações', max_length=100, blank=True)
     termo = models.CharField('Termo', max_length=100, blank=True)
     sd = models.CharField('SD', max_length=100, blank=True)
@@ -102,3 +91,31 @@ class Bombeiro(models.Model):
     class Meta:
         verbose_name = 'Bombeiro'
         verbose_name_plural = 'Bombeiros'
+
+    def dias(self):
+        operador = self.vencimento - datetime.date.today()
+        if int(operador.days) <= 0:
+            operador = "Certificado Vencido"
+        else:
+            operador = f'{operador.days} dias para vencer'
+        return operador
+
+
+    def tp_extintores(self):
+        area = self.area
+        if area <=250:
+            extintor = '01 extintor pó ABC (2A-20B:C) e \n' \
+                       '01 extintor de água (2A)'
+        elif area > 250 and area <= 500:
+            extintor = '02 extintores de pó ABC (2A-20B:C) Ou \n' \
+                       '01 extintor de água (2A); e \n' \
+                       '01 extintor (20B:C ou 5 B:C)'
+        elif area > 500 and area <=750:
+            extintor = '03 extintores de pó ABC (2A-20B:C) ou \n' \
+                       '02 extintores de água (2A); e 01 extintor (20B:C ou 5B:C) \n' \
+                       'Ou 01 extintor de água (2A); e 02 extintores (20B:C ou 5B:C)'
+        else:
+            extintor = 'Gerar Protocolo Para Vistoria'
+        return extintor
+
+
