@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Bombeiro</title>
-    </head>
-    <body>
-        <div>
-            {% for b in bombeiro %}
-            <div>
-                <p>Pasta: {{ b.fk_cliente.pasta }}</p>
-                <p>Razão Social: {{ b.fk_cliente.cliente }}</p>
-                <p>CNPJ: {{ b.fk_cliente.cnpj_cpf }}</p>
-                <p>Vencimento: {{ b.vencimento }}</p>
-                <p>Status: {{ b.dias }}</p>
-                <p>Extintores: {{ b.tp_extintores }}</p>
-            </div>
-            <br>
-            {% endfor %}
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Bombeiro</title>
+</head>
+<body>
+<div class="table-responsive-sm">
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Pasta</th>
+            <th scope="col">Razão Social</th>
+            <th scope="col">CNPJ</th>
+            <th scope="col">Vencimento</th>
+            <th scope="col">Status</th>
+            <th scope="col">Extintores</th>
+            <th scope="col">Ação</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for b in bombeiro %}
+        <tr>
+            <th scope="row">{{ b.fk_cliente.pasta }}</th>
+            <td>{{ b.fk_cliente.cliente }}</td>
+            <td>{{ b.fk_cliente.cnpj_cpf }}</td>
+            <td>{{ b.vencimento }}</td>
+            <td>{{ b.dias }}</td>
+            <td>{{ b.tp_extintores }}</td>
+            <td align="right" class="btn-group">
+             <a href="#" class="btn btn-warning" data-modal="">
+                 <span title="Editar" class="glyphicon glyphicon-pencil">Editar</span>
+             </a>
+                 <a href="#" class="btn btn-warning" data-modal="">
+                     <span title="Editar" class="glyphicon glyphicon-pencil">Detalhes</span>
+                 </a>
+             <a href="#" class="btn btn-danger">
+                 <span title="Excluir" class="glyphicon glyphicon-trash">Excluir</span>
+             </a>
+             <a href="#" class="btn btn-info" target="_blank">
+                 <span title="Excluir" class="glyphicon glyphicon-map-marker">Localizar</span>
+             </a>
+         </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
 </html>
